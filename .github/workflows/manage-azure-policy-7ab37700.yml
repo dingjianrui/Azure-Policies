@@ -1,0 +1,40 @@
+name: manage-azure-policy-7ab37700
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/_Preview_Assign_Built-In_User-Assigned_Managed_Identity_to_Virtual_Machines_d367bd60-64ca-4364-98ea-276775bddd94/**'
+#      - 'policies/_Preview_Assign_Built-In_User-Assigned_Managed_Identity_to_Virtual_Machine_Scale_Sets_516187d4-ef64-4a1b-ad6b-a7348502976c/**'
+#      - 'policies/Configure_Windows_virtual_machines_to_run_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_authentication_637125fd-7c39-4b94-bb0a-d331faf333a9/**'
+#      - 'policies/Configure_Windows_virtual_machine_scale_sets_to_run_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_authentication_98569e20-8f32-4f31-bf34-0e91590ae9d3/**'
+#      - 'policies/Configure_Windows_Machines_to_be_associated_with_a_Data_Collection_Rule_or_a_Data_Collection_Endpoint_eab1f514-22e3-42e3-9a1f-e1dc9199355c/**'
+#      - .github/workflows/manage-azure-policy-7ab37700.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_7ab37700}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/_Preview_Assign_Built-In_User-Assigned_Managed_Identity_to_Virtual_Machines_d367bd60-64ca-4364-98ea-276775bddd94/**
+          policies/_Preview_Assign_Built-In_User-Assigned_Managed_Identity_to_Virtual_Machine_Scale_Sets_516187d4-ef64-4a1b-ad6b-a7348502976c/**
+          policies/Configure_Windows_virtual_machines_to_run_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_authentication_637125fd-7c39-4b94-bb0a-d331faf333a9/**
+          policies/Configure_Windows_virtual_machine_scale_sets_to_run_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_authentication_98569e20-8f32-4f31-bf34-0e91590ae9d3/**
+          policies/Configure_Windows_Machines_to_be_associated_with_a_Data_Collection_Rule_or_a_Data_Collection_Endpoint_eab1f514-22e3-42e3-9a1f-e1dc9199355c/**
