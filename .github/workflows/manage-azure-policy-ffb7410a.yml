@@ -1,0 +1,32 @@
+name: manage-azure-policy-ffb7410a
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'initiatives/Deploy_Windows_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_auth_and_associate_with_Data_Collection_Rule_0d1b56c6-6d1f-4a5d-8695-b15efbea6b49/**'
+#      - .github/workflows/manage-azure-policy-ffb7410a.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_ffb7410a}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          initiatives/Deploy_Windows_Azure_Monitor_Agent_with_user-assigned_managed_identity-based_auth_and_associate_with_Data_Collection_Rule_0d1b56c6-6d1f-4a5d-8695-b15efbea6b49/**
